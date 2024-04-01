@@ -213,15 +213,11 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
             let weatherdata = getWeather(circuit);
             resolve(weatherdata)
         }).then(weatherdata => {
+          return new Promise(resolve => {
             weatherresponse = ('```' + weatherdata + '```')
-            if (circuits[circuit] != undefined ) {
                 weatherresponse += circuits[circuit][1];
               console.log(weatherresponse)
               resolve (inforesponse,wingresponse,weatherresponse)
-            }
-          else {
-            resolve(inforesponse,wingresponse,weatherresponse)
-          }
            
         }).then((inforesponse, wingresponse, weatherresponse) => {
     let reply= inforesponse + wingresponse + weatherresponse;
@@ -235,7 +231,8 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
       })
   //});
 
-  };
+  });
+    }
 
 }
 });
