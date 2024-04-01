@@ -172,10 +172,12 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
       console.log('Message received! Message content: ' + interaction.data.options[0].name);
  
       let circuit = interaction.data.options[0].value;
+      let inforesponse;
+      let wingresponse;
       if (interaction.data.options[0].name=='info') {
-        let inforesponse = '```' + getinfo(info, circuit) + '```';
+        inforesponse = '```' + getinfo(info, circuit) + '```';
         inforesponse = inforesponse.replaceAll(',', '\n');
-        let wingresponse = '```' + getinfo(wings, circuit) + '```';
+        wingresponse = '```' + getinfo(wings, circuit) + '```';
         wingresponse = wingresponse.replaceAll(',', '\n');
       }
         let weatherresponse;
