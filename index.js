@@ -243,7 +243,17 @@ app.get('/register_commands', async (req,res) =>{
       "name": "dm",
       "description": "sends user a DM",
       "options": []
-    }
+    },
+    {
+      "name": "igp",
+      "description": "replies with all race info",
+      "options": []
+    },
+      {
+        "name": "igpw",
+        "description": "replies with weather",
+        "options": []
+      }
   ]
   try
   {
