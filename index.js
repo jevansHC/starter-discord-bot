@@ -193,7 +193,7 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
         })
             WeatherProm2.then((weatherresponse) => {
               let reply;
-              if (interaction.data.options.name=='info') {
+              if (interaction.data.options[0].name=='info') {
               reply= inforesponse + wingresponse + weatherresponse;
               } else { reply=weatherresponse }
             console.log(reply)
