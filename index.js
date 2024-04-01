@@ -167,47 +167,17 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
 
   if (interaction.type === InteractionType.APPLICATION_COMMAND) {
     console.log(interaction.data.name)
-    if(interaction.data.name == 'yo'){
-      return res.send({
-        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-        data: {
-          content: `Yo ${interaction.member.user.username}!`,
-        },
-      });
-    }
-
-    if(interaction.data.name == 'dm'){
-      // https://discord.com/developers/docs/resources/user#create-dm
-      let c = (await discord_api.post(`/users/@me/channels`,{
-        recipient_id: interaction.member.user.id
-      })).data
-      try{
-        // https://discord.com/developers/docs/resources/channel#create-message
-        let res = await discord_api.post(`/channels/${c.id}/messages`,{
-          content:'Yo! I got your slash command. I am not able to respond to DMs just slash commands.',
-        })
-        console.log(res.data)
-      }catch(e){
-        console.log(e)
-      }
-
-      return res.send({
-        // https://discord.com/developers/docs/interactions/receiving-and-responding#responding-to-an-interaction
-        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-        data:{
-          content:'👍'
-        }
-      });
-    }
 
     if(interaction.data.name == 'igp'){
-      console.log('Message received! Message content: ' + interaction.data.options[0].value);
+      console.log('Message received! Message content: ' + interaction.data.options);
  
       let circuit = interaction.data.options[0].value;
+      if (interaction.data.options.name=='info') {
         let inforesponse = '```' + getinfo(info, circuit) + '```';
         inforesponse = inforesponse.replaceAll(',', '\n');
         let wingresponse = '```' + getinfo(wings, circuit) + '```';
         wingresponse = wingresponse.replaceAll(',', '\n');
+      }
         let weatherresponse;
         let WeatherProm= new Promise(resolve => {
             let weatherdata = getWeather(circuit);
@@ -222,7 +192,10 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
            
         })
             WeatherProm2.then((weatherresponse) => {
-    let reply= inforesponse + wingresponse + weatherresponse;
+              let reply;
+              if (interaction.data.options.name=='info') {
+              reply= inforesponse + wingresponse + weatherresponse;
+              } else { reply=weatherresponse }
             console.log(reply)
           return res.send({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
@@ -245,21 +218,11 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
 app.get('/register_commands', async (req,res) =>{
   let slash_commands = [
     {
-      "name": "yo",
-      "description": "replies with Yo!",
-      "options": []
-    },
-    {
-      "name": "dm",
-      "description": "sends user a DM",
-      "options": []
-    },
-    {
       "name": "igp",
-      "description": "replies with all race info",
+      "description": "The iGP Champions League bot",
       "options": [{
-        "name": "circuit",
-        "description": "The circuit you want to know about",
+        "name": "info",
+        "description": "Replies with all race info",
           "type": 3,
           "required": true,
         "choices": [
@@ -272,13 +235,24 @@ app.get('/register_commands', async (req,res) =>{
             "value": "australia"
         }
         ]
-    }]
     },
-      {
-        "name": "igpw",
-        "description": "replies with weather",
-        "options": []
-      }
+                  {"name": "weather",
+                      "description": "Replies with only the weather info",
+                        "type": 3,
+                        "required": true,
+                      "choices": [
+                      {
+                          "name": "Bahrain",
+                          "value": "bahrain"
+                      },
+                      {
+                          "name": "Australia",
+                          "value": "australia"
+                      }
+                      ]
+                  }
+                ]
+    }
   ]
   try {
     // api docs - https://discord.com/developers/docs/interactions/application-commands#create-global-application-command
