@@ -169,10 +169,10 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
     console.log(interaction.data.name)
 
     if(interaction.data.name == 'igp'){
-      console.log('Message received! Message content: ' + interaction.data.options[0].name,interaction.data.options[1].name, );
+      console.log('Message received! Message content: ' + interaction.data.options[0].name);
  
       let circuit = interaction.data.options[0].value;
-      if (interaction.data.options.name=='info') {
+      if (interaction.data.options[0].name=='info') {
         let inforesponse = '```' + getinfo(info, circuit) + '```';
         inforesponse = inforesponse.replaceAll(',', '\n');
         let wingresponse = '```' + getinfo(wings, circuit) + '```';
