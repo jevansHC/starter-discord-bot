@@ -216,10 +216,11 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
           return new Promise(resolve => {
             weatherresponse = ('```' + weatherdata + '```')
                 weatherresponse += circuits[circuit][1];
-              console.log(weatherresponse)
+              
               resolve (inforesponse,wingresponse,weatherresponse)
            
         }).then((inforesponse, wingresponse, weatherresponse) => {
+            console.log(weatherresponse)
     let reply= inforesponse + wingresponse + weatherresponse;
           return res.send({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
