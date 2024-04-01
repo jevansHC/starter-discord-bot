@@ -202,7 +202,6 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
 
     if(interaction.data.name == 'igp'){
       console.log('Message received! Message content: ' + interaction.data.options[0].value);
-      return new Promise(resolve => {
       let circuit = interaction.data.options[0].value;
         let inforesponse = '```' + getinfo(info, circuit) + '```';
         inforesponse = inforesponse.replaceAll(',', '\n');
@@ -220,7 +219,7 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
               resolve (inforesponse,wingresponse,weatherresponse)
             }
           else {
-            resolve(inforesponse,wingresponse)
+            resolve(inforesponse,wingresponse,weatherresponse)
           }
            
         }).then((inforesponse, wingresponse, weatherresponse) => {
@@ -235,8 +234,6 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
       })
   //});
 
-      
-    })
   };
 
 }
