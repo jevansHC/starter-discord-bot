@@ -209,18 +209,19 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
         let wingresponse = '```' + getinfo(wings, circuit) + '```';
         wingresponse = wingresponse.replaceAll(',', '\n');
         let weatherresponse;
-        return new Promise(resolve => {
+        let WeatherProm= new Promise(resolve => {
             let weatherdata = getWeather(circuit);
             resolve(weatherdata)
-        }).then(weatherdata => {
-          return new Promise(resolve => {
+        })
+        WeatherProm.then(weatherdata => {
+          let WeatherProm2 = new Promise(resolve => {
             weatherresponse = ('```' + weatherdata + '```')
                 weatherresponse += circuits[circuit][1];
               
-              resolve (inforesponse,wingresponse,weatherresponse)
+              resolve (weatherresponse)
            
-        }).then((inforesponse, wingresponse, weatherresponse) => {
-            console.log(weatherresponse)
+        })
+            WeatherProm2.then((weatherresponse) => {
     let reply= inforesponse + wingresponse + weatherresponse;
             console.log(reply)
           return res.send({
