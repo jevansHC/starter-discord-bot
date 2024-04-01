@@ -201,7 +201,7 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
     }
 
     if(interaction.data.name == 'igp'){
-      console.log('Message received! Message content: ' + message.content);
+      console.log('Message received! Message content: ' + interaction.content);
       let circuit = message.content.slice(5).toString().toLowerCase();
         let inforesponse = '```' + getinfo(info, circuit) + '```';
         inforesponse = inforesponse.replaceAll(',', '\n');
@@ -247,8 +247,16 @@ app.get('/register_commands', async (req,res) =>{
     {
       "name": "igp",
       "description": "replies with all race info",
-      "options": []
-    },
+      "options": [{
+        "name": "circuits",
+        "choices": [
+        {
+            "name": "Bahrain",
+        },
+      ]
+      }]
+    }
+    ,
       {
         "name": "igpw",
         "description": "replies with weather",
