@@ -246,6 +246,7 @@ app.get('/register_commands', async (req,res) =>{
     },
     {
       "name": "igp",
+      "type": 1,
       "description": "replies with all race info",
       "options": [{
         "name": "circuits",
@@ -253,8 +254,7 @@ app.get('/register_commands', async (req,res) =>{
         {
             "name": "Bahrain",
             "value": "Bahrain Internation Circuit"
-        },
-      ]
+        }]
       }]
     }
     ,
