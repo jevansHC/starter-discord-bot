@@ -152,7 +152,7 @@ async function getWeather(circuit) {
             });
         setTimeout(function() {
             resolve(weatherdata);
-        }, 2750)
+        }, 2000)
 
     });
 
