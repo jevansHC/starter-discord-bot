@@ -221,6 +221,7 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
            */ 
         }).then((inforesponse, wingresponse) => {
     let reply= inforesponse + wingresponse// + weatherresponse
+        console.log(reply)
           return res.send({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
@@ -263,18 +264,21 @@ app.get('/register_commands', async (req,res) =>{
         {
             "name": "Bahrain",
             "value": "bahrain"
-        }]
-      }]
-    }
-    ,
+        },
+        {
+            "name": "Australia",
+            "value": "australia"
+        }
+        ]
+    }]
+    },
       {
         "name": "igpw",
         "description": "replies with weather",
         "options": []
       }
   ]
-  try
-  {
+  try {
     // api docs - https://discord.com/developers/docs/interactions/application-commands#create-global-application-command
     let discord_response = await discord_api.put(
       `/applications/${APPLICATION_ID}/guilds/${GUILD_ID}/commands`,
