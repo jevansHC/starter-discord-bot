@@ -202,7 +202,7 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
 
     if(interaction.data.name == 'igp'){
       console.log('Message received! Message content: ' + interaction.data.options[0].value);
-      let circuit = interaction.data.options[0].name.toLowerCase();
+      let circuit = interaction.data.options[0].value;
         let inforesponse = '```' + getinfo(info, circuit) + '```';
         inforesponse = inforesponse.replaceAll(',', '\n');
         let wingresponse = '```' + getinfo(wings, circuit) + '```';
@@ -256,7 +256,7 @@ app.get('/register_commands', async (req,res) =>{
         "choices": [
         {
             "name": "Bahrain",
-            "value": "Bahrain International Circuit"
+            "value": "bahrain"
         }]
       }]
     }
