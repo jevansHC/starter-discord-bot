@@ -11,7 +11,8 @@ const GUILD_ID = process.env.GUILD_ID
 
 import axios from 'axios'
 import express from 'express';
-const { InteractionType, InteractionResponseType, verifyKeyMiddleware } = import('discord-interactions');
+import dcclient from 'discord-interactions';
+const { InteractionType, InteractionResponseType, verifyKeyMiddleware } = dcclient;
 
 
 const app = express();
