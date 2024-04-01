@@ -169,7 +169,7 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
     console.log(interaction.data.name)
 
     if(interaction.data.name == 'igp'){
-      console.log('Message received! Message content: ' + interaction.data.options);
+      console.log('Message received! Message content: ' + interaction.data.options[0]);
  
       let circuit = interaction.data.options[0].value;
       if (interaction.data.options.name=='info') {
@@ -224,7 +224,7 @@ app.get('/register_commands', async (req,res) =>{
         "name": "info",
         "description": "Replies with all race info",
           "type": 3,
-          "required": true,
+     //     "required": false,
         "choices": [
         {
             "name": "Bahrain",
@@ -239,7 +239,7 @@ app.get('/register_commands', async (req,res) =>{
                   {"name": "weather",
                       "description": "Replies with only the weather info",
                         "type": 3,
-                        "required": true,
+   //                     "required": true,
                       "choices": [
                       {
                           "name": "Bahrain",
