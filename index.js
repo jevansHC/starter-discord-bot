@@ -152,7 +152,7 @@ async function getWeather(circuit) {
             });
         setTimeout(function() {
             resolve(weatherdata);
-        }, 3000)
+        }, 2750)
 
     });
 
@@ -208,10 +208,7 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
         inforesponse = inforesponse.replaceAll(',', '\n');
         let wingresponse = '```' + getinfo(wings, circuit) + '```';
         wingresponse = wingresponse.replaceAll(',', '\n');
-        console.log(inforesponse)
-        console.log(wingresponse)
-        resolve(inforesponse + wingresponse)
-/*        return new Promise(resolve => {
+        return new Promise(resolve => {
             let weatherdata = getWeather(circuit);
             resolve(weatherdata)
         }).then(weatherdata => {
@@ -219,10 +216,11 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
             if (circuits[circuit] != undefined ) {
                 weatherresponse += circuits[circuit][1];
               console.log(weatherresponse)
+              resolve (inforesponse + wingresponse+weatherresponse)
             }
-           */ 
+           
         }).then((inforesponse, wingresponse) => {
-    let reply= inforesponse + wingresponse// + weatherresponse
+    let reply= inforesponse + wingresponse;// + weatherresponse
           return res.send({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
@@ -234,9 +232,10 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
   //});
 
       
-    }
-  }
+    })
+  };
 
+}
 });
 
 
