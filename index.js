@@ -252,6 +252,7 @@ app.get('/register_commands', async (req,res) =>{
         "choices": [
         {
             "name": "Bahrain",
+            "value": "Bahrain Internation Circuit"
         },
       ]
       }]
