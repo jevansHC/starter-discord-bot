@@ -1,17 +1,17 @@
-const cheerio = require("cheerio")
-const request = require ("request")
-const OpenWeatherAPI =  require("openweather-api-node")
+import cheerio from "cheerio"
+import request from "request";
+import OpenWeatherAPI from "openweather-api-node"
+import 'dotenv/config'
 
 // const { clientId, guildId, token, publicKey } = require('./config.json');
-require('dotenv').config()
 const APPLICATION_ID = process.env.APPLICATION_ID 
 const TOKEN = process.env.TOKEN 
 const PUBLIC_KEY = process.env.PUBLIC_KEY || 'not set'
 const GUILD_ID = process.env.GUILD_ID 
 
-const axios = require('axios')
-const express = require('express');
-const { InteractionType, InteractionResponseType, verifyKeyMiddleware } = require('discord-interactions');
+import axios from 'axios'
+import express from 'express';
+const { InteractionType, InteractionResponseType, verifyKeyMiddleware } = import('discord-interactions');
 
 
 const app = express();
@@ -21,10 +21,10 @@ const discord_api = axios.create({
   baseURL: 'https://discord.com/api/',
   timeout: 3000,
   headers: {
-	"Access-Control-Allow-Origin": "*",
-	"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-	"Access-Control-Allow-Headers": "Authorization",
-	"Authorization": `Bot ${TOKEN}`
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+  "Access-Control-Allow-Headers": "Authorization",
+  "Authorization": `Bot ${TOKEN}`
   }
 });
 
@@ -199,8 +199,8 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
       });
     }
 
-	  if(interaction.data.name == 'igp'){
-		  console.log('Message received! Message content: ' + message.content);
+    if(interaction.data.name == 'igp'){
+      console.log('Message received! Message content: ' + message.content);
       let circuit = message.content.slice(5).toString().toLowerCase();
         let inforesponse = '```' + getinfo(info, circuit) + '```';
         inforesponse = inforesponse.replaceAll(',', '\n');
@@ -214,16 +214,15 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
             if (circuits[circuit] != undefined ) {
                 weatherresponse += circuits[circuit][1];
             }
-		let reply= inforesponse + wingresponse + weatherresponse
+    let reply= inforesponse + wingresponse + weatherresponse
 
-	});
-		  
+  });
+
       return res.send({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         data: {
-	content: reply,         
-	  });
-        },
+  content: reply         
+    }
       });
     }
   }
@@ -270,4 +269,3 @@ app.get('/', async (req,res) =>{
 app.listen(8999, () => {
 
 })
-
