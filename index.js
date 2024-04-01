@@ -246,10 +246,12 @@ app.get('/register_commands', async (req,res) =>{
     },
     {
       "name": "igp",
-      "type": 1,
       "description": "replies with all race info",
       "options": [{
         "name": "circuits",
+        "description": "The circuit you want to know about",
+          "type": 3,
+          "required": True,
         "choices": [
         {
             "name": "Bahrain",
