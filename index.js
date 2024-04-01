@@ -255,7 +255,7 @@ app.get('/register_commands', async (req,res) =>{
       "name": "igp",
       "description": "replies with all race info",
       "options": [{
-        "name": "Circuit",
+        "name": "circuit",
         "description": "The circuit you want to know about",
           "type": 3,
           "required": true,
