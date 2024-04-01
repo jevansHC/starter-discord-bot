@@ -202,6 +202,7 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
 
     if(interaction.data.name == 'igp'){
       console.log('Message received! Message content: ' + interaction.data.options[0].value);
+ 
       let circuit = interaction.data.options[0].value;
         let inforesponse = '```' + getinfo(info, circuit) + '```';
         inforesponse = inforesponse.replaceAll(',', '\n');
@@ -213,11 +214,17 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
             resolve(weatherdata)
         }).then(weatherdata => {
             weatherresponse = ('```' + weatherdata + '```')
-              weatherresponse += circuits[circuit][1];
+            if (circuits[circuit] != undefined ) {
+                weatherresponse += circuits[circuit][1];
               console.log(weatherresponse)
-              resolve (weatherresponse);
-       }).then((inforesponse, wingresponse, weatherresponse) => {
-          let reply= inforesponse + wingresponse + weatherresponse;
+              resolve (inforesponse,wingresponse,weatherresponse)
+            }
+          else {
+            resolve(inforesponse,wingresponse,weatherresponse)
+          }
+           
+        }).then((inforesponse, wingresponse, weatherresponse) => {
+    let reply= inforesponse + wingresponse + weatherresponse;
           return res.send({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
@@ -225,9 +232,11 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
           }
           });
 
-    })
+      })
   //});
 
+      
+    })
   };
 
 }
