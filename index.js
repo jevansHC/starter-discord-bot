@@ -224,7 +224,7 @@ app.get('/register_commands', async (req,res) =>{
         "name": "info",
         "description": "Replies with all race info",
           "type": 3,
-     //     "required": false,
+          "required": false,
         "choices": [
         {
             "name": "Bahrain",
@@ -239,7 +239,7 @@ app.get('/register_commands', async (req,res) =>{
                   {"name": "weather",
                       "description": "Replies with only the weather info",
                         "type": 3,
-   //                     "required": true,
+                      "required": false,
                       "choices": [
                       {
                           "name": "Bahrain",
