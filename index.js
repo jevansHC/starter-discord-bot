@@ -208,17 +208,20 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
         inforesponse = inforesponse.replaceAll(',', '\n');
         let wingresponse = '```' + getinfo(wings, circuit) + '```';
         wingresponse = wingresponse.replaceAll(',', '\n');
-        return new Promise(resolve => {
+        let weatherresponse;
+        return new Promise(resolve2 => {
             let weatherdata = getWeather(circuit);
-            resolve(weatherdata)
+            resolve2(weatherdata)
         }).then(weatherdata => {
-            let weatherresponse = ('```' + weatherdata + '```')
+            weatherresponse = ('```' + weatherdata + '```')
             if (circuits[circuit] != undefined ) {
                 weatherresponse += circuits[circuit][1];
               console.log(weatherresponse)
-              resolve (weatherresponse)
+              resolve (inforesponse,wingresponse,weatherresponse)
             }
-          resolve (inforesponse,wingresponse)
+          else {
+            resolve(inforesponse,wingresponse)
+          }
            
         }).then((inforesponse, wingresponse, weatherresponse) => {
     let reply= inforesponse + wingresponse + weatherresponse;
