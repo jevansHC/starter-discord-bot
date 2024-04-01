@@ -222,6 +222,7 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
         }).then((inforesponse, wingresponse, weatherresponse) => {
             console.log(weatherresponse)
     let reply= inforesponse + wingresponse + weatherresponse;
+            console.log(reply)
           return res.send({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
