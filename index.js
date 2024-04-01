@@ -200,12 +200,35 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
     }
 
 	  if(interaction.data.name == 'igp'){
+		  try {
+			  
+        let res = await {
+		console.log('Message received! Message content: ' + message.content);
+      let circuit = message.content.slice(5).toString().toLowerCase();
+        let inforesponse = '```' + getinfo(info, circuit) + '```';
+        inforesponse = inforesponse.replaceAll(',', '\n');
+        let wingresponse = '```' + getinfo(wings, circuit) + '```';
+        wingresponse = wingresponse.replaceAll(',', '\n');
+        return new Promise(resolve => {
+            let weatherdata = getWeather(circuit);
+            resolve(weatherdata)
+        }).then(weatherdata => {
+            let weatherresponse = ('```' + weatherdata + '```')
+            if (circuits[circuit] != undefined ) {
+                weatherresponse += circuits[circuit][1];
+            }
+		let reply= inforesponse + wingresponse + weatherresponse
+
+	}
+		}catch(e){
+        console.log(e)
+      }
+		  
       return res.send({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         data: {
-
-		
-          content: `Yo ${interaction.member.user.username}!`,
+	content: res.reply,         
+	  });
         },
       });
     }
