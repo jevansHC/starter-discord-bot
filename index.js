@@ -202,11 +202,13 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
 
     if(interaction.data.name == 'igp'){
       console.log('Message received! Message content: ' + interaction.data.options[0].value);
+      return new Promise(resolve => {
       let circuit = interaction.data.options[0].value;
         let inforesponse = '```' + getinfo(info, circuit) + '```';
         inforesponse = inforesponse.replaceAll(',', '\n');
         let wingresponse = '```' + getinfo(wings, circuit) + '```';
         wingresponse = wingresponse.replaceAll(',', '\n');
+        resolve(inforesponse + wingresponse)
 /*        return new Promise(resolve => {
             let weatherdata = getWeather(circuit);
             resolve(weatherdata)
@@ -217,6 +219,7 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
               console.log(weatherresponse)
             }
            */ 
+        }).then((inforesponse, wingresponse) => {
     let reply= inforesponse + wingresponse// + weatherresponse
           return res.send({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
@@ -224,6 +227,8 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
           content: reply         
           }
           });
+
+      })
   //});
 
       
@@ -250,7 +255,7 @@ app.get('/register_commands', async (req,res) =>{
       "name": "igp",
       "description": "replies with all race info",
       "options": [{
-        "name": "circuits",
+        "name": "Circuit",
         "description": "The circuit you want to know about",
           "type": 3,
           "required": true,
