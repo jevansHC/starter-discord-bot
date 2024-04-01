@@ -251,7 +251,7 @@ app.get('/register_commands', async (req,res) =>{
         "name": "circuits",
         "description": "The circuit you want to know about",
           "type": 3,
-          "required": True,
+          "required": true,
         "choices": [
         {
             "name": "Bahrain",
