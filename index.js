@@ -208,22 +208,16 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
         let wingresponse = '```' + getinfo(wings, circuit) + '```';
         wingresponse = wingresponse.replaceAll(',', '\n');
         let weatherresponse;
-        return new Promise(resolve2 => {
+        return new Promise(resolve => {
             let weatherdata = getWeather(circuit);
-            resolve2(weatherdata)
+            resolve(weatherdata)
         }).then(weatherdata => {
             weatherresponse = ('```' + weatherdata + '```')
-            if (circuits[circuit] != undefined ) {
-                weatherresponse += circuits[circuit][1];
+              weatherresponse += circuits[circuit][1];
               console.log(weatherresponse)
-              resolve (inforesponse,wingresponse,weatherresponse)
-            }
-          else {
-            resolve(inforesponse,wingresponse,weatherresponse)
-          }
-           
-        }).then((inforesponse, wingresponse, weatherresponse) => {
-    let reply= inforesponse + wingresponse + weatherresponse;
+              resolve (weatherresponse);
+       }).then((inforesponse, wingresponse, weatherresponse) => {
+          let reply= inforesponse + wingresponse + weatherresponse;
           return res.send({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
@@ -231,7 +225,7 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
           }
           });
 
-      })
+    })
   //});
 
   };
