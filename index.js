@@ -200,10 +200,7 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
     }
 
 	  if(interaction.data.name == 'igp'){
-		  try {
-			  
-        let res = await function{
-		console.log('Message received! Message content: ' + message.content);
+		  console.log('Message received! Message content: ' + message.content);
       let circuit = message.content.slice(5).toString().toLowerCase();
         let inforesponse = '```' + getinfo(info, circuit) + '```';
         inforesponse = inforesponse.replaceAll(',', '\n');
@@ -220,14 +217,11 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
 		let reply= inforesponse + wingresponse + weatherresponse
 
 	}
-		}catch(e){
-        console.log(e)
-      }
 		  
       return res.send({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         data: {
-	content: res.reply,         
+	content: reply,         
 	  });
         },
       });
