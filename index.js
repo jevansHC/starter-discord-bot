@@ -214,6 +214,7 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
             let weatherresponse = ('```' + weatherdata + '```')
             if (circuits[circuit] != undefined ) {
                 weatherresponse += circuits[circuit][1];
+              console.log(weatherresponse)
             }
     let reply= inforesponse + wingresponse + weatherresponse
           return res.send({
