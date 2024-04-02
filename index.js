@@ -81,7 +81,7 @@ async function getpage(url) {
   //dbdate=dbdate.toString()
   dbdate = new Date(dbdate).getDate()
   console.log(dbdate);
-  if (today > dbdate) {
+  if (dbdate= undefined || today > dbdate) {
     console.log("Loading igp data from website.")
     request(url, (error, response, html) => {
         if (!error && response.statusCode == 200) {
