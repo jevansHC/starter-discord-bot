@@ -81,15 +81,16 @@ function getpage(url) {
             if (url.includes('wings')) {
                 $('p').each(function() {
                     wings.push($(this).text());
-                    data.set($(this).text())
                 });
-                  console.log(data.get());
+              data.set("1", {wingdata: wings})
             } else {
                 $('p').each(function() {
                     info.push($(this).text());
                 });
+              data.set("1", {infodata: info})
             }
             console.log("Loaded igp data.")
+          console.log(data.get("1"));
         }
     });
 }
