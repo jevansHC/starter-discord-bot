@@ -73,6 +73,12 @@ const circuits = {
 console.log("bot startup");
 
 function getpage(url) {
+  
+  let today = new Date()
+  console.log(today);
+  let dbdate= data.get("1").updated
+  console.log(dbdate);
+  if (today > dbdate) {
     console.log("Loading igp data from website.")
     request(url, (error, response, html) => {
         if (!error && response.statusCode == 200) {
@@ -109,6 +115,7 @@ function getpage(url) {
           
         }
     });
+  }
 }
 getpage(wingp);
 getpage(infop);
