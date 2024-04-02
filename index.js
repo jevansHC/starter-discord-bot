@@ -86,13 +86,13 @@ function getpage(url) {
                 })
                   resolve(true)
               })
-  /*            WingProm.then(() => {
-                data.set("1", {wingdata: wings})
-              }).then(() => {
+              WingProm.then(async() => {
+                await data.set("1", {wingdata: wings});
             console.log("Loaded igp data.")
-            console.log(data.get("1"))
+                let item= await data.get("1")
+                console.log(item);
               })
-  */        
+          
             } else {
               let InfoProm= new Promise(resolve => {
                 $('p').each(function() {
@@ -190,7 +190,6 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
 
   if (interaction.type === InteractionType.APPLICATION_COMMAND) {
     console.log(interaction.data.name)
-    console.log(await data.get("1"))
 
     if(interaction.data.name == 'igp'){
       console.log('Message received! Message content: ' + interaction.data.options[0].name);
