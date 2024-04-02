@@ -78,7 +78,7 @@ async function getpage(url) {
   console.log(today);
   let dbdate= await data.get("1").updated
   console.log(dbdate)
-  dbdate=dbdate.toString()
+  //dbdate=dbdate.toString()
   dbdate = new Date(dbdate).getDate()
   console.log(dbdate);
   if (today > dbdate) {
