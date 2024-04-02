@@ -78,19 +78,33 @@ function getpage(url) {
         if (!error && response.statusCode == 200) {
             const $ = cheerio.load(html);
 
-            if (url.includes('wings')) {
+          if (url.includes('wings')) {
+              let WingProm= new Promise(resolve => {
                 $('p').each(function() {
                     wings.push($(this).text());
+                                   
                 });
-              data.set("1", {wingdata: wings})
+                resolve(true);
+              })
+              WingProm.then(() => {
+                data.set("1", {wingdata: wings})
+              }).then(() => {
+            console.log("Loaded igp data.")
+            console.log(data.get("1"))
+              })
+              
             } else {
+              let InfoProm= new Promise(resolve => {
                 $('p').each(function() {
                     info.push($(this).text());
                 });
+                resolve(true);
+              });
+              InfoProm.then((info) => {
               data.set("1", {infodata: info})
+                })
             }
-            console.log("Loaded igp data.")
-          console.log(data.get("1"));
+          
         }
     });
 }
