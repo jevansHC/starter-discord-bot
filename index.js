@@ -82,7 +82,7 @@ function getpage(url) {
               let WingProm= new Promise(resolve => {
                 $('p').each(function() {
                     wings.push($(this).text());
-                    data.set("1", {wingdata: wings}).then(console.log(data.get("1"))
+                    data.set("1", {wingdata: $(this).text()}).then(console.log(data.get("1"))
                     )
                 })
                   resolve(true)
