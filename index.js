@@ -3,6 +3,10 @@ import request from "request";
 import OpenWeatherAPI from "openweather-api-node"
 import 'dotenv/config'
 
+import CyclicDb from "@cyclic.sh/dynamodb"
+const db = CyclicDb("good-puce-capybara-yokeCyclicDB")
+const data = db.collection("data")
+
 // const { clientId, guildId, token, publicKey } = require('./config.json');
 const APPLICATION_ID = process.env.APPLICATION_ID 
 const TOKEN = process.env.TOKEN 
@@ -77,7 +81,9 @@ function getpage(url) {
             if (url.includes('wings')) {
                 $('p').each(function() {
                     wings.push($(this).text());
+                    data.set($(this).text())
                 });
+                  console.log(data);
             } else {
                 $('p').each(function() {
                     info.push($(this).text());
