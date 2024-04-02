@@ -76,8 +76,9 @@ function getpage(url) {
   
   let today = new Date().getDate()
   console.log(today);
-  let dbdate= data.get("1").updated.toString()
+  let dbdate= data.get("1").updated
   console.log(dbdate)
+  dbdate=dbdate.toString()
   dbdate = new Date(dbdate).getDate()
   console.log(dbdate);
   if (today > dbdate) {
