@@ -74,9 +74,10 @@ console.log("bot startup");
 
 function getpage(url) {
   
-  let today = new Date()
+  let today = new Date().getDate()
   console.log(today);
   let dbdate= data.get("1").updated
+  dbdate = new Date(dbdate).getDate()
   console.log(dbdate);
   if (today > dbdate) {
     console.log("Loading igp data from website.")
