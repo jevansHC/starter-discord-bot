@@ -72,14 +72,14 @@ const circuits = {
 
 console.log("bot startup");
 
-async function getpage(url) {
+function getpage(url) {
   
   let today = new Date().getDate()
   console.log(today);
-  let dbdate= await data.get("1").updated
+  let dbdate= data.get("1").updated
   console.log(dbdate)
   //dbdate=dbdate.toString()
-  dbdate = new Date(dbdate).getDate()
+ dbdate = new Date(dbdate).getDate()
   console.log(dbdate);
   if (dbdate= NaN || today > dbdate) {
     console.log("Loading igp data from website.")
