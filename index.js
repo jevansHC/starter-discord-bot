@@ -83,7 +83,7 @@ function getpage(url) {
                     wings.push($(this).text());
                     data.set($(this).text())
                 });
-                  console.log(data);
+                  console.log(data.get());
             } else {
                 $('p').each(function() {
                     info.push($(this).text());
