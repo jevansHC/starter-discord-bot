@@ -72,11 +72,11 @@ const circuits = {
 
 console.log("bot startup");
 
-function getpage(url) {
+async function getpage(url) {
   
   let today = new Date().getDate()
   console.log(today);
-  let dbdate= data.get("1").updated
+  let dbdate= await data.get("1").updated
   console.log(dbdate)
   //dbdate=dbdate.toString()
   dbdate = new Date(dbdate).getDate()
