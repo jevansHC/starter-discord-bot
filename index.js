@@ -82,14 +82,13 @@ function getpage(url) {
               let WingProm= new Promise(resolve => {
                 $('p').each(function() {
                     wings.push($(this).text());
-                    data.set("1", {wingdata: "test"})
                 })
                   resolve(true)
               })
               WingProm.then(async() => {
                 await data.set("1", {wingdata: wings});
             console.log("Loaded igp data.")
-                let item= await data.get("1")
+                let item= await data.get("1").wingdata
                 console.log(item);
               })
           
@@ -100,11 +99,12 @@ function getpage(url) {
                 });
                 resolve(true);
               });
-            /*
-              InfoProm.then((info) => {
-              data.set("1", {infodata: info})
-                })
-                */
+            InfoProm.then(async() => {
+              await data.set("1", {infodata: info});
+            console.log("Loaded igp data.")
+              let item= await data.get("1").infodata
+              console.log(item);
+            })
             }
           
         }
