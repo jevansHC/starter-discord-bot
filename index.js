@@ -221,7 +221,7 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
     console.log(interaction.data.name)
 
     if(interaction.data.name == 'igp'){
-      console.log('Message received! Message content: ' + interaction.data.options[0].name+data.options[filter].value);
+      console.log('Message received! Message content: ' + interaction.data.options[0].name+interaction.data.options[filter].value);
  
       let circuit = interaction.data.options[0].value;
       let inforesponse;
