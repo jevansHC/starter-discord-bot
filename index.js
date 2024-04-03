@@ -221,13 +221,13 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
     console.log(interaction.data.name)
 
     if(interaction.data.name == 'igp'){
-      console.log('Message received! Message content: ' + interaction.data.options[0].name+interaction.data.options[0].getString('filter'));
+      console.log('Message received! Message content: ' + interaction.data.options[0].name+interaction.data.options[0].Second.value);
  
       let circuit = interaction.data.options[0].value;
       let inforesponse;
       let wingresponse;
       let reply;
-      if (interaction.data.options[filter].value !='weather') {
+      if (interaction.data.options[0].Second.value !='weather') {
         inforesponse = '```' + getinfo(info, circuit) + '```';
         inforesponse = inforesponse.replaceAll(',', '\n');
         wingresponse = '```' + getinfo(wings, circuit) + '```';
