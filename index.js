@@ -221,7 +221,7 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
     console.log(interaction.data.name)
 
     if(interaction.data.name == 'igp'){
-      console.log('Message received! Message content: ' + interaction.data.options[0].name+interaction.data.options[filter].value);
+      console.log('Message received! Message content: ' + interaction.data.options[0].name+interaction.data.options[0].options[0].value);
  
       let circuit = interaction.data.options[0].value;
       let inforesponse;
@@ -233,7 +233,7 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
         wingresponse = '```' + getinfo(wings, circuit) + '```';
         wingresponse = wingresponse.replaceAll(',', '\n');
        reply= inforesponse + wingresponse
-        if (interaction.data.options[filter].value =='info') {
+        if (interaction.data.options[0].options[0].value =='info') {
           return res.send({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
@@ -242,7 +242,7 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
           }); 
       }
       }
-      if (interaction.data.options[filter].value !='info') {
+      if (interaction.data.options[0].options[0].value !='info') {
         let weatherresponse;
         let WeatherProm= new Promise(resolve => {
             let weatherdata = getWeather(circuit);
@@ -257,7 +257,7 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
            
         })
             WeatherProm2.then((weatherresponse) => {
-              if (interaction.data.options[filter].name!='weather') {
+              if (interaction.data.options[0].options[0].name!='weather') {
               reply= inforesponse + wingresponse + weatherresponse;
               } else { reply=weatherresponse }
             console.log(reply)
@@ -290,6 +290,23 @@ app.get('/register_commands', async (req,res) =>{
         "description": "Select a track",
           "type": 3,
           "required": true,
+          "options": [{
+            "name": "filter",
+                "description": "Filter the response",
+                  "type": 3,
+                "required": false,
+                "choices": [
+                {
+                    "name": "weather",
+                    "value": "weather"
+                },
+                {
+                    "name": "info",
+                    "value": "info"
+                }
+                ]
+            }],
+            
         "choices": [
           {
               "name": "Abu Dhabi",
@@ -389,22 +406,7 @@ app.get('/register_commands', async (req,res) =>{
             },
             
         ]
-    },
-                  {"name": "filter",
-                      "description": "Filter the response",
-                        "type": 3,
-                      "required": false,
-                      "choices": [
-                      {
-                          "name": "weather",
-                          "value": "weather"
-                      },
-                      {
-                          "name": "info",
-                          "value": "info"
-                      }
-                      ]
-                  }
+    }
                 ]
     }
   ]
