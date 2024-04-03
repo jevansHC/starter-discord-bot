@@ -226,12 +226,23 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
       let circuit = interaction.data.options[0].value;
       let inforesponse;
       let wingresponse;
-      if (interaction.data.options[0].name=='info') {
+      let reply;
+      if (interaction.data.options[1].value !='weather') {
         inforesponse = '```' + getinfo(info, circuit) + '```';
         inforesponse = inforesponse.replaceAll(',', '\n');
         wingresponse = '```' + getinfo(wings, circuit) + '```';
         wingresponse = wingresponse.replaceAll(',', '\n');
+       reply= inforesponse + wingresponse
+        if (interaction.data.options[1].value =='info') {
+          return res.send({
+            type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+            data: {
+          content: reply         
+          }
+          }); 
       }
+      }
+      if (interaction.data.options[1].value !='info') {
         let weatherresponse;
         let WeatherProm= new Promise(resolve => {
             let weatherdata = getWeather(circuit);
@@ -246,15 +257,14 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
            
         })
             WeatherProm2.then((weatherresponse) => {
-              let reply;
-              if (interaction.data.options[0].name=='info') {
+              if (interaction.data.options[0].name!='weather') {
               reply= inforesponse + wingresponse + weatherresponse;
               } else { reply=weatherresponse }
             console.log(reply)
           return res.send({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
-          content: reply         
+          content: reply
           }
           });
 
@@ -265,7 +275,8 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
     }
 
 }
-});
+};
+})
 
 
 
@@ -275,33 +286,122 @@ app.get('/register_commands', async (req,res) =>{
       "name": "igp",
       "description": "The iGP Champions League bot",
       "options": [{
-        "name": "info",
-        "description": "Replies with all race info",
+        "name": "track",
+        "description": "Select a track",
           "type": 3,
-          "required": false,
+          "required": true,
         "choices": [
+          {
+              "name": "Abu Dhabi",
+              "value": "abu dhabi"
+          },
+            {
+            "name": "Australia",
+            "value": "australia"
+            },
+            {
+                "name": "Austria",
+                "value": "austria"
+            },
+            {
+                "name": "Azerbaijan",
+                "value": "azerbaijan"
+            },
         {
             "name": "Bahrain",
             "value": "bahrain"
         },
         {
-            "name": "Australia",
-            "value": "australia"
-        }
+            "name": "Belgium",
+            "value": "belgium"
+        },
+            {
+            "name": "Brazil",
+            "value": "brazil"
+            },
+            {
+              "name": "Canada",
+              "value": "canada"
+              },
+            {
+              "name": "China",
+              "value": "china"
+              },
+            {
+              "name": "Europe",
+              "value": "europe"
+            },
+            {
+              "name": "France",
+              "value": "france"
+              },
+            {
+              "name": "Germany",
+              "value": "germany"
+              },
+            {
+              "name": "Great Britain",
+              "value": "great britain"
+              },
+            {
+              "name": "Hungary",
+              "value": "hungary"
+              },
+            {
+              "name": "Italy",
+              "value": "italy"
+              },
+            {
+              "name": "Japan",
+              "value": "japan"
+              },
+            {
+              "name": "Malaysia",
+              "value": "malaysia"
+              },
+          {
+            "name": "Mexico",
+            "value": "mexico"
+            },
+          {
+            "name": "Monaco",
+            "value": "monaco"
+            },
+          {
+            "name": "Russia",
+            "value": "russia"
+            },
+          {
+            "name": "Singapore",
+            "value": "singapore"
+            },
+          {
+            "name": "Spain",
+            "value": "spain"
+            },
+          {
+            "name": "Turkey",
+            "value": "turkey"
+            },
+          {
+            "name": "USA",
+            "value": "usa"
+            },
+            
         ]
     },
-                  {"name": "weather",
-                      "description": "Replies with only the weather info",
+                  {"name": "filter",
+                      "description": "Filter the response",
                         "type": 3,
                       "required": false,
                       "choices": [
                       {
-                          "name": "Bahrain",
-                          "value": "bahrain"
+                          "name": "weather",
+                          "value": "weather"
                       },
                       {
-                          "name": "Australia",
-                          "value": "australia"
+                          "name": "info",
+                          "value": "info"
                       }
                       ]
                   }
