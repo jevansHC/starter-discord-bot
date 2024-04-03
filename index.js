@@ -92,7 +92,7 @@ function getpage(url) {
                 $('p').each(function() {
                     wings.push($(this).text());
                 })
-                  resolve(true)
+                  resolve(wings)
               })
               WingProm.then(async() => {
                 await data.set("1", {wingdata: wings});
@@ -106,7 +106,7 @@ function getpage(url) {
                 $('p').each(function() {
                     info.push($(this).text());
                 });
-                resolve(true);
+                resolve(info);
               });
             InfoProm.then(async() => {
               await data.set("1", {infodata: info});
