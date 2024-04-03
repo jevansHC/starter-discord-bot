@@ -222,19 +222,19 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
 
     if(interaction.data.name == 'igp'){
       console.log('Message received! Message content: ' + interaction.data.options[0].name)
-      console.dir(interaction.data.options)
+
  
       let circuit = interaction.data.options[0].value;
       let inforesponse;
       let wingresponse;
       let reply;
-      if (interaction.data.options[0].Second.value !='weather') {
+      if (interaction.data.options[1] ==undefined ||interaction.data.options[1] !=undefined && interaction.data.options[1].value !='weather') {
         inforesponse = '```' + getinfo(info, circuit) + '```';
         inforesponse = inforesponse.replaceAll(',', '\n');
         wingresponse = '```' + getinfo(wings, circuit) + '```';
         wingresponse = wingresponse.replaceAll(',', '\n');
        reply= inforesponse + wingresponse
-        if (interaction.data.options[0].options[0].value =='info') {
+        if (interaction.data.options[1] !=undefined && interaction.data.options[1].value =='info') {
           return res.send({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
@@ -243,7 +243,7 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
           }); 
       }
       }
-      if (interaction.data.options[0].options[0].value !='info') {
+      if (interaction.data.options[1] ==undefined ||interaction.data.options[1] !=undefined && interaction.data.options[1].value !='info') {
         let weatherresponse;
         let WeatherProm= new Promise(resolve => {
             let weatherdata = getWeather(circuit);
@@ -258,7 +258,7 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
            
         })
             WeatherProm2.then((weatherresponse) => {
-              if (interaction.data.options[0].options[0].name!='weather') {
+              if (interaction.data.options[1] ==undefined ||interaction.data.options[1] !=undefined && interaction.data.options[1].value !='weather') {
               reply= inforesponse + wingresponse + weatherresponse;
               } else { reply=weatherresponse }
             console.log(reply)
