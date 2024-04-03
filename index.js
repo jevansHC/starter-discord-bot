@@ -221,19 +221,19 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
     console.log(interaction.data.name)
 
     if(interaction.data.name == 'igp'){
-      console.log('Message received! Message content: ' + interaction.data.options[0].name);
+      console.log('Message received! Message content: ' + interaction.data.options[0].name+data.options[filter].value);
  
       let circuit = interaction.data.options[0].value;
       let inforesponse;
       let wingresponse;
       let reply;
-      if (interaction.data.options[1].value !='weather') {
+      if (interaction.data.options[filter].value !='weather') {
         inforesponse = '```' + getinfo(info, circuit) + '```';
         inforesponse = inforesponse.replaceAll(',', '\n');
         wingresponse = '```' + getinfo(wings, circuit) + '```';
         wingresponse = wingresponse.replaceAll(',', '\n');
        reply= inforesponse + wingresponse
-        if (interaction.data.options[1].value =='info') {
+        if (interaction.data.options[filter].value =='info') {
           return res.send({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
@@ -242,7 +242,7 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
           }); 
       }
       }
-      if (interaction.data.options[1].value !='info') {
+      if (interaction.data.options[filter].value !='info') {
         let weatherresponse;
         let WeatherProm= new Promise(resolve => {
             let weatherdata = getWeather(circuit);
@@ -257,7 +257,7 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
            
         })
             WeatherProm2.then((weatherresponse) => {
-              if (interaction.data.options[0].name!='weather') {
+              if (interaction.data.options[filter].name!='weather') {
               reply= inforesponse + wingresponse + weatherresponse;
               } else { reply=weatherresponse }
             console.log(reply)
