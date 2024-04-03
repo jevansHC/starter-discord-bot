@@ -221,7 +221,7 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
     console.log(interaction.data.name)
 
     if(interaction.data.name == 'igp'){
-      console.log('Message received! Message content: ' + interaction.data.options[0].name+interaction.data.options[0].options[0].value);
+      console.log('Message received! Message content: ' + interaction.data.options[0].name+interaction.data.options[0].getString('filter'));
  
       let circuit = interaction.data.options[0].value;
       let inforesponse;
@@ -290,23 +290,7 @@ app.get('/register_commands', async (req,res) =>{
         "description": "Select a track",
           "type": 3,
           "required": true,
-          "options": [{
-            "name": "filter",
-                "description": "Filter the response",
-                  "type": 3,
-                "required": false,
-                "choices": [
-                {
-                    "name": "weather",
-                    "value": "weather"
-                },
-                {
-                    "name": "info",
-                    "value": "info"
-                }
-                ]
-            }],
-            
+                
         "choices": [
           {
               "name": "Abu Dhabi",
@@ -406,10 +390,29 @@ app.get('/register_commands', async (req,res) =>{
             },
             
         ]
-    }
+    },
+                  {
+                  "name": "filter",
+                      "description": "Filter the response",
+                        "type": 3,
+                      "required": false,
+                      "choices": [
+                      {
+                          "name": "weather",
+                          "value": "weather"
+                      },
+                      {
+                          "name": "info",
+                          "value": "info"
+                      }
+                      ]
+                  }
+                  
                 ]
     }
-  ]
+    ]
+  
+        
   try {
     // api docs - https://discord.com/developers/docs/interactions/application-commands#create-global-application-command
     let discord_response = await discord_api.put(
