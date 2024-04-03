@@ -109,9 +109,10 @@ function getpage(url) {
                 });
                 resolve(true);
               });
-            InfoProm.then(async(info) => {
-              console.log("Array created")
-              await data.set("1", {infodata: info});
+            InfoProm.then(async() => {
+             // console.log("Array created")
+              //console.log(info)
+              let setdata = await data.set("1", {infodata: "test"});
             console.log("Loaded igp data.")
               let item= await data.get("1").infodata
               console.log(item);
