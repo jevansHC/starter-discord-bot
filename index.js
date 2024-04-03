@@ -3,7 +3,7 @@ import request from "request";
 import OpenWeatherAPI from "openweather-api-node"
 import 'dotenv/config'
 
-import CyclicDb from "@cyclic.sh/dynamodb"
+/*import CyclicDb from "@cyclic.sh/dynamodb"
 const db = CyclicDb("good-puce-capybara-yokeCyclicDB")
 const data = db.collection("data")
 
@@ -21,7 +21,7 @@ const run = async function(){
   console.log(item)
 }
 run()
-
+*/
 // const { clientId, guildId, token, publicKey } = require('./config.json');
 const APPLICATION_ID = process.env.APPLICATION_ID 
 const TOKEN = process.env.TOKEN 
@@ -88,7 +88,7 @@ const circuits = {
 console.log("bot startup");
 
 function getpage(url) {
-  
+/*  
   let today = new Date().getDate()
   console.log(today);
 //  let dbdate= data.get("1").updated
@@ -97,6 +97,7 @@ function getpage(url) {
  //dbdate = new Date(dbdate).getDate()
  // console.log(dbdate);
   //if (dbdate= undefined || today > dbdate) {
+  */
     console.log("Loading igp data from website.")
     request(url, (error, response, html) => {
         if (!error && response.statusCode == 200) {
@@ -110,11 +111,11 @@ function getpage(url) {
                   resolve(true)
               })
               WingProm.then(async(wings) => {
-                console.log("Array created")
-                await data.set("1", {wingdata: wings});
+                
+                //await data.set("1", {wingdata: wings});
             console.log("Loaded igp data.")
-                let item= await data.get("1").wingdata
-                console.log(item);
+               // let item= await data.get("1").wingdata
+                //console.log(item);
               })
           
             } else {
@@ -127,10 +128,10 @@ function getpage(url) {
             InfoProm.then(async() => {
              // console.log("Array created")
               //console.log(info)
-              let setdata = await data.set("1", {infodata: "test"});
+              //let setdata = await data.set("1", {infodata: "test"});
             console.log("Loaded igp data.")
-              let item= await data.get("1").infodata
-              console.log(item);
+            //  let item= await data.get("1").infodata
+              //console.log(item);
             })
             }
           
