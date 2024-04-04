@@ -2,6 +2,7 @@ import cheerio from "cheerio"
 import request from "request";
 import OpenWeatherAPI from "openweather-api-node"
 import 'dotenv/config'
+import fs from "fs"
 
 /*import CyclicDb from "@cyclic.sh/dynamodb"
 const db = CyclicDb("good-puce-capybara-yokeCyclicDB")
@@ -55,8 +56,11 @@ let weather = new OpenWeatherAPI({
 
 const wingp = 'https://theigpchampionsleague.com/wings';
 const infop = 'https://theigpchampionsleague.com/race-preview';
-const wings = [];
-const info = [];
+let wingtemp = [];
+let wings= [];
+let infotemp = [];
+let info = [];
+
 
 const circuits = {
     'abu dhabi': ['Yas Marina Circuit', '<https://openweathermap.org/city/8057179>', 24.469656520027602, 54.60537410845018],
@@ -106,14 +110,17 @@ function getpage(url) {
           if (url.includes('wings')) {
               let WingProm= new Promise(resolve => {
                 $('p').each(function() {
-                    wings.push($(this).text());
+                    wingtemp.push($(this).text());
                 })
-                  resolve(true)
+                  resolve()
               })
-              WingProm.then(async(wings) => {
+              WingProm.then(() => {
                 
                 //await data.set("1", {wingdata: wings});
-            console.log("Loaded igp data.")
+                console.log("Loaded igp data.")
+                fs.writeFileSync('/tmp/wings.txt', JSON.stringify(wingtemp));
+                let fileContent = fs.readFileSync('/tmp/wings.txt');
+                 wings = JSON.parse(fileContent);
                // let item= await data.get("1").wingdata
                 //console.log(item);
               })
@@ -121,15 +128,19 @@ function getpage(url) {
             } else {
               let InfoProm= new Promise(resolve => {
                 $('p').each(function() {
-                    info.push($(this).text());
+                    infotemp.push($(this).text());
                 });
-                resolve(true);
+                resolve();
               });
-            InfoProm.then(async() => {
+            InfoProm.then(() => {
              // console.log("Array created")
               //console.log(info)
               //let setdata = await data.set("1", {infodata: "test"});
             console.log("Loaded igp data.")
+              fs.writeFileSync('/tmp/info.txt', JSON.stringify(infotemp));
+              let fileContent = fs.readFileSync('/tmp/info.txt');
+              info = JSON.parse(fileContent);
+            
             //  let item= await data.get("1").infodata
               //console.log(item);
             })
@@ -139,8 +150,43 @@ function getpage(url) {
     });
  // }
 }
-getpage(wingp);
-getpage(infop);
+
+fs.writeFile('/tmp/info.txt', "", { flag: 'wx' }, function (err) {
+    if (err) {
+      let fileFullDate = fs.statSync('/tmp/info.txt').mtime
+      console.log('info.text: '+ fileFullDate)
+      let fileDate = new Date(fileFullDate).getDate();
+      if (fileDate < new Date().getDate()) {
+        getpage(infop);
+        } else {
+          let fileContent = fs.readFileSync('/tmp/info.txt');
+          info = JSON.parse(fileContent);
+        }
+      
+    } else {
+      console.log("file created")
+        getpage(infop);
+        ;
+    }
+});
+
+fs.writeFile('/tmp/wings.txt', "", { flag: 'wx' }, function (err) {
+    if (err) {
+      let fileFullDate = fs.statSync('/tmp/wings.txt').mtime
+      console.log('wings.txt: '+ fileFullDate)
+      let fileDate = new Date(fileFullDate).getDate();
+      if (fileDate < new Date().getDate()) {
+        getpage(wingp);
+      } else {
+        let fileContent = fs.readFileSync('/tmp/wings.txt');
+        wings = JSON.parse(fileContent);
+      }
+    } else {
+      console.log("file created")
+        getpage(wingp);
+        ;
+    }
+});
 
 function getinfo(type, circuit) {
     console.log(`Looking up data:`)
